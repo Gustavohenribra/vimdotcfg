@@ -48,6 +48,15 @@ if !has('nvim')
 endif
 call plug#end()
 
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_diagnostics_virtual_text_enabled = 1
+let g:lsp_diagnostics_signs_enabled = 1
+let g:lsp_diagnostics_highlights_enabled = 1
+
+let g:lsp_hover_ui = 'preview'
+autocmd CursorMoved * silent! pclose!
+
 " LSP CONFIGURAÇÃO
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
@@ -74,3 +83,8 @@ augroup lsp_install
     au!
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
+
+" AUTOCOMPLETE CONFIGURAÇÃO
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
